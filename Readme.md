@@ -1,6 +1,5 @@
-# Template TypeScript
-
-## Testing sostenible
+# Testing sostenible
+## Katas para practicar TDD.
 
 - TypeScript
 - Jest
