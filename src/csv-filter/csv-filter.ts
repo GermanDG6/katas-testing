@@ -20,19 +20,17 @@ export class CsvFilter {
   filteredLines() {
     const header = this.lines[0];
     const invoices = this.lines.slice(1);
-    const validatedInvoices = this.takeValidInvoices(invoices);
-    const duplicatedInvoices = this.takeRepeatedInvoicesIds(invoices);
-    const nonRepeatedInvoices = validatedInvoices.filter(
-      (invoice) => !duplicatedInvoices.includes(this.invoiceId(invoice))
-    );
-    return [header].concat(nonRepeatedInvoices);
+    return [header].concat(this.takeUniqueInvoices(this.takeValidInvoices(invoices)));
   }
 
-  takeRepeatedInvoicesIds(invoices: string[]) {
+  takeUniqueInvoices(invoices: string[]) {
     const invoiceIds = invoices.map((invoice) => this.invoiceId(invoice));
-    return invoiceIds.filter(
+    const duplicatedInvoices = invoiceIds.filter(
       (invoiceId, index) => invoiceIds.indexOf(invoiceId) !== index
     );
+    return invoices.filter(
+      (invoice) => !duplicatedInvoices.includes(this.invoiceId(invoice))
+    )
   }
 
   private isValidInvoice = (invoice) => {

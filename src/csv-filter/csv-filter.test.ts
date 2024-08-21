@@ -158,25 +158,7 @@ describe('Csv Filter', () => {
 
     expect(result).toEqual([header, invoiceLine2]);
   });
-  it('take repeted invoices', () => {
-    const invoiceLine1 = fileWithOneInvoiceLineHaving();
-    const invoiceLine2 = fileWithOneInvoiceLineHaving({ invoiceId: '2' });
-    const invoiceLine3 = fileWithOneInvoiceLineHaving({ invoiceId: '1' });
-    const invoiceLine4 = fileWithOneInvoiceLineHaving({ invoiceId: '4' });
-    const invoiceLine5 = fileWithOneInvoiceLineHaving({ invoiceId: '4' });
-    const csvFilter = CsvFilter.create([]);
-
-    const result = csvFilter.takeRepeatedInvoicesIds([
-      invoiceLine1,
-      invoiceLine2,
-      invoiceLine3,
-      invoiceLine4,
-      invoiceLine5,
-    ]);
-
-    expect(result).toEqual(['1', '4']);
-  });
-
+  
   it('A empty list will produce a empty list', () => {
     const csvFilter = CsvFilter.create([]);
 
