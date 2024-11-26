@@ -35,7 +35,7 @@ export class GildedRose {
       ) {
         if (this.items[i].quality > this.MIN_QUALITY) {
           if (this.items[i].name != this.SULFURAS) {
-            this.items[i].quality = this.items[i].quality - 1;
+            this.decreaseQuality(i);
           }
         }
       } else {
@@ -85,6 +85,10 @@ export class GildedRose {
     }
 
     return this.items;
+  }
+
+  private decreaseQuality(i: number) {
+    this.items[i].quality = this.items[i].quality - 1;
   }
 
   private decreaseSellIn(i: number) {
