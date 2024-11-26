@@ -33,44 +33,54 @@ export class GildedRose {
 
       this.decreaseSellIn(i);
 
-      if (
-        this.items[i].name != this.AGED_BRIE &&
-        this.items[i].name != this.BACKSTAGE_PASSES
-      ) {
-        this.decreaseQuality(i);
+      if (this.items[i].name === this.AGED_BRIE) {
+        this.upadteAgedBrieQuality(i);
+      } else if (this.items[i].name === this.BACKSTAGE_PASSES) {
+        this.updateBackStagePassesQuality(i);
       } else {
-        this.increaseQuality(i);
-        if (this.items[i].name == this.BACKSTAGE_PASSES) {
-          if (
-            this.items[i].sellIn <=
-            this.BACKSTAGE_PASSES_DOUBLE_QUALITY_INCREASE_SELL_IN_THRESHOLD
-          ) {
-            this.increaseQuality(i);
-          }
-          if (
-            this.items[i].sellIn <=
-            this.BACKSTAGE_PASSES_TRIPLE_QUALITY_INCREASE_SELL_IN_TRESHOLD
-          ) {
-            this.increaseQuality(i);
-          }
-        }
-      }
-
-      if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != this.AGED_BRIE) {
-          if (this.items[i].name != this.BACKSTAGE_PASSES) {
-            this.decreaseQuality(i);
-          } else {
-            this.items[i].quality =
-              this.items[i].quality - this.items[i].quality;
-          }
-        } else {
-          this.increaseQuality(i);
-        }
+        this.updateStandarItemQuality(i);
       }
     }
 
     return this.items;
+  }
+
+  private updateStandarItemQuality(i: number) {
+    this.decreaseQuality(i);
+    if (this.items[i].sellIn < 0) {
+      this.decreaseQuality(i);
+    }
+  }
+
+  private upadteAgedBrieQuality(i: number) {
+    this.increaseQuality(i);
+
+    if (this.items[i].sellIn < 0) {
+      this.increaseQuality(i);
+    }
+  }
+
+  private updateBackStagePassesQuality(i: number) {
+    this.increaseQuality(i);
+    if (
+      this.items[i].sellIn <=
+      this.BACKSTAGE_PASSES_DOUBLE_QUALITY_INCREASE_SELL_IN_THRESHOLD
+    ) {
+      this.increaseQuality(i);
+    }
+    if (
+      this.items[i].sellIn <=
+      this.BACKSTAGE_PASSES_TRIPLE_QUALITY_INCREASE_SELL_IN_TRESHOLD
+    ) {
+      this.increaseQuality(i);
+    }
+    if (this.items[i].sellIn < 0) {
+      this.resetQuality(i);
+    }
+  }
+
+  private resetQuality(i: number) {
+    this.items[i].quality = this.items[i].quality - this.items[i].quality;
   }
 
   private increaseQuality(i: number) {

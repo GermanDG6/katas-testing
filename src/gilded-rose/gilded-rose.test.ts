@@ -73,5 +73,18 @@ describe('Gilded Rose', () => {
 
       expect(item.quality).toBe(quality + 3);
     });
+    it('Should quality drop to 0 after the concert', () => {
+      const sellIn = 0;
+      const quality = 30;
+      const item = new Item(
+        'Backstage passes to a TAFKAL80ETC concert',
+        sellIn,
+        quality
+      );
+
+      new GildedRose([item]).updateQuality();
+
+      expect(item.quality).toBe(0);
+    });
   });
 });
