@@ -29,14 +29,16 @@ export class GildedRose {
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].name == this.SULFURAS) return;
+
+      this.decreaseSellIn(i);
+
       if (
         this.items[i].name != this.AGED_BRIE &&
         this.items[i].name != this.BACKSTAGE_PASSES
       ) {
         if (this.items[i].quality > this.MIN_QUALITY) {
-          if (this.items[i].name != this.SULFURAS) {
-            this.decreaseQuality(i);
-          }
+          this.decreaseQuality(i);
         }
       } else {
         if (this.items[i].quality < this.MAX_QUALITY) {
@@ -61,16 +63,12 @@ export class GildedRose {
           }
         }
       }
-      if (this.items[i].name != this.SULFURAS) {
-        this.decreaseSellIn(i);
-      }
+
       if (this.items[i].sellIn < 0) {
         if (this.items[i].name != this.AGED_BRIE) {
           if (this.items[i].name != this.BACKSTAGE_PASSES) {
             if (this.items[i].quality > this.MIN_QUALITY) {
-              if (this.items[i].name != this.SULFURAS) {
-                this.decreaseQuality(i);
-              }
+              this.decreaseQuality(i);
             }
           } else {
             this.items[i].quality =
