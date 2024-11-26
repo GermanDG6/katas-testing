@@ -39,25 +39,19 @@ export class GildedRose {
       ) {
         this.decreaseQuality(i);
       } else {
-        if (this.items[i].quality < this.MAX_QUALITY) {
-          this.increaseQuality(i);
-          if (this.items[i].name == this.BACKSTAGE_PASSES) {
-            if (
-              this.items[i].sellIn <=
-              this.BACKSTAGE_PASSES_DOUBLE_QUALITY_INCREASE_SELL_IN_THRESHOLD
-            ) {
-              if (this.items[i].quality < this.MAX_QUALITY) {
-                this.increaseQuality(i);
-              }
-            }
-            if (
-              this.items[i].sellIn <=
-              this.BACKSTAGE_PASSES_TRIPLE_QUALITY_INCREASE_SELL_IN_TRESHOLD
-            ) {
-              if (this.items[i].quality < this.MAX_QUALITY) {
-                this.increaseQuality(i);
-              }
-            }
+        this.increaseQuality(i);
+        if (this.items[i].name == this.BACKSTAGE_PASSES) {
+          if (
+            this.items[i].sellIn <=
+            this.BACKSTAGE_PASSES_DOUBLE_QUALITY_INCREASE_SELL_IN_THRESHOLD
+          ) {
+            this.increaseQuality(i);
+          }
+          if (
+            this.items[i].sellIn <=
+            this.BACKSTAGE_PASSES_TRIPLE_QUALITY_INCREASE_SELL_IN_TRESHOLD
+          ) {
+            this.increaseQuality(i);
           }
         }
       }
@@ -71,9 +65,7 @@ export class GildedRose {
               this.items[i].quality - this.items[i].quality;
           }
         } else {
-          if (this.items[i].quality < this.MAX_QUALITY) {
-            this.increaseQuality(i);
-          }
+          this.increaseQuality(i);
         }
       }
     }
@@ -82,7 +74,9 @@ export class GildedRose {
   }
 
   private increaseQuality(i: number) {
-    this.items[i].quality = this.items[i].quality + 1;
+    if (this.items[i].quality < this.MAX_QUALITY) {
+      this.items[i].quality = this.items[i].quality + 1;
+    }
   }
 
   private decreaseQuality(i: number) {
