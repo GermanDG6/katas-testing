@@ -26,6 +26,14 @@ describe('Gilded Rose', () => {
 
     expect(item.quality).toBe(quality - 2);
   });
+  it('The quality of an item never can be negative', () => {
+    const quality = 0;
+    const item = new Item('item', 0, quality);
+
+    new GildedRose([item]).updateQuality();
+
+    expect(item.quality).toBe(quality);
+  });
 
   describe('Sulfuras', () => {
     it('never change', () => {

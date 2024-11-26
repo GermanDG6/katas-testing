@@ -37,9 +37,7 @@ export class GildedRose {
         this.items[i].name != this.AGED_BRIE &&
         this.items[i].name != this.BACKSTAGE_PASSES
       ) {
-        if (this.items[i].quality > this.MIN_QUALITY) {
-          this.decreaseQuality(i);
-        }
+        this.decreaseQuality(i);
       } else {
         if (this.items[i].quality < this.MAX_QUALITY) {
           this.increaseQuality(i);
@@ -67,9 +65,7 @@ export class GildedRose {
       if (this.items[i].sellIn < 0) {
         if (this.items[i].name != this.AGED_BRIE) {
           if (this.items[i].name != this.BACKSTAGE_PASSES) {
-            if (this.items[i].quality > this.MIN_QUALITY) {
-              this.decreaseQuality(i);
-            }
+            this.decreaseQuality(i);
           } else {
             this.items[i].quality =
               this.items[i].quality - this.items[i].quality;
@@ -90,7 +86,9 @@ export class GildedRose {
   }
 
   private decreaseQuality(i: number) {
-    this.items[i].quality = this.items[i].quality - 1;
+    if (this.items[i].quality > this.MIN_QUALITY) {
+      this.items[i].quality = this.items[i].quality - 1;
+    }
   }
 
   private decreaseSellIn(i: number) {
