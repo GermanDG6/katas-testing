@@ -1,4 +1,4 @@
-import { Item } from './item';
+import { Item } from './Item';
 import { ItemQuality } from './item-quality';
 import { ItemSellIn } from './item-sellIn';
 
