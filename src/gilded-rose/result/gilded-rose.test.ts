@@ -1,5 +1,6 @@
 import { BackstagePasses } from './backstage-passes';
 import { GildedRose } from './gilded-rose';
+import { ItemName } from './item-name';
 import { ItemQuality } from './item-quality';
 import { ItemSellIn } from './item-sellIn';
 import { StandartItem } from './standar-item';
@@ -7,7 +8,11 @@ import { Sulfuras } from './sulfuras';
 describe('Gilded Rose', () => {
   it('Should decrease by one the sellIn value after update', () => {
     const sellIn = new ItemSellIn(10);
-    const item = new StandartItem('item', sellIn, new ItemQuality(10));
+    const item = new StandartItem(
+      new ItemName('item'),
+      sellIn,
+      new ItemQuality(10)
+    );
 
     new GildedRose([item]).updateQuality();
 
@@ -16,7 +21,11 @@ describe('Gilded Rose', () => {
   });
   it('Should decrease by one the quality after update', () => {
     const quality = new ItemQuality(20);
-    const item = new StandartItem('item', new ItemSellIn(10), quality);
+    const item = new StandartItem(
+      new ItemName('item'),
+      new ItemSellIn(10),
+      quality
+    );
 
     new GildedRose([item]).updateQuality();
 
@@ -26,7 +35,7 @@ describe('Gilded Rose', () => {
   it('Should decrease double quality when sell by date has passed', () => {
     const sellIn = new ItemSellIn(0);
     const quality = new ItemQuality(20);
-    const item = new StandartItem('item', sellIn, quality);
+    const item = new StandartItem(new ItemName('item'), sellIn, quality);
 
     new GildedRose([item]).updateQuality();
 
@@ -35,7 +44,11 @@ describe('Gilded Rose', () => {
   });
   it('The quality of an item never can be negative', () => {
     const quality = new ItemQuality(0);
-    const item = new StandartItem('item', new ItemSellIn(0), quality);
+    const item = new StandartItem(
+      new ItemName('item'),
+      new ItemSellIn(0),
+      quality
+    );
 
     new GildedRose([item]).updateQuality();
 
@@ -45,7 +58,7 @@ describe('Gilded Rose', () => {
   describe('Sulfuras', () => {
     it('never change', () => {
       const item = new Sulfuras(
-        'Sulfuras',
+        new ItemName('Sulfuras'),
         new ItemSellIn(20),
         new ItemQuality(25)
       );
