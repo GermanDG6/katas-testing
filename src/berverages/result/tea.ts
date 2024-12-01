@@ -1,4 +1,4 @@
-import { Berverages } from './Berverages.1';
+import { Berverages } from './berverages';
 
 export class Tea implements Berverages {
   price(): number {

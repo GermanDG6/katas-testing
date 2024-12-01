@@ -1,6 +1,6 @@
 import { Coffee } from './coffee';
-import { Cream } from './Cream';
-import { Milk } from './Milk';
+import { Cream } from './cream';
+import { Milk } from './milk';
 
 export class CoffeeWithMilkAndCream {
   constructor(

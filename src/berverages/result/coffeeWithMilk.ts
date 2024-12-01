@@ -1,5 +1,5 @@
 import { Coffee } from './coffee';
-import { Milk } from './Milk';
+import { Milk } from './milk';
 
 export class CoffeeWithMilk {
   constructor(

@@ -1,5 +1,5 @@
 import { Berverages } from './berverages';
-import { Milk } from './Milk';
+import { Milk } from './milk';
 import { Tea } from './tea';
 
 export class TeaWithMilk implements Berverages {

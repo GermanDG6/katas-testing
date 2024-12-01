@@ -1,5 +1,5 @@
 import { Berverages } from './berverages';
-import { Cream } from './Cream';
+import { Cream } from './cream';
 import { HotChocolate } from './hotChocolate';
 
 export class HotChocolateWithCream implements Berverages {

@@ -1,6 +1,6 @@
 import { Cinnamon } from './cinnamon';
 import { Coffee } from './coffee';
-import { Milk } from './Milk';
+import { Milk } from './milk';
 
 export class CoffeeWithMilkAndCinnamon {
   constructor(
