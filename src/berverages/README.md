@@ -8,3 +8,5 @@ to all our existing catalog of beverages.
 ### Tips:
 
 You might want to refactor the code a bit first.
+
+Practice composition over inheritance
