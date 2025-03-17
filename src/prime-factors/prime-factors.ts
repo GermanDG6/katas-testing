@@ -1,4 +1,5 @@
 export function getPrimeFactorsFor(number: number) {
+  if (number < 1) throw new Error('only allow positive numbers');
   const prime = getSmallestPrime(number);
   const reminder = number / prime;
   if (reminder <= 1) return [prime];
