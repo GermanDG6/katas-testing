@@ -1,30 +1,32 @@
-import { ColumnWidth, wordWrap, WrappeableText } from './word-wrap';
+import { ColumnWidth, WrappeableText } from './word-wrap';
 describe('The WordWrap', () => {
   it('makes every single line of text fit column width', () => {
-    expect(wordWrap(WrappeableText.create(''), ColumnWidth.create(5))).toBe('');
+    expect(WrappeableText.create('').wordWrap(ColumnWidth.create(5))).toEqual({
+      text: '',
+    });
     expect(
-      wordWrap(WrappeableText.create('hello'), ColumnWidth.create(5))
-    ).toBe('hello');
+      WrappeableText.create('hello').wordWrap(ColumnWidth.create(5))
+    ).toEqual({ text: 'hello' });
     expect(
-      wordWrap(WrappeableText.create('longword'), ColumnWidth.create(4))
-    ).toBe('long\nword');
+      WrappeableText.create('longword').wordWrap(ColumnWidth.create(4))
+    ).toEqual({ text: 'long\nword' });
     expect(
-      wordWrap(WrappeableText.create('reallylongword'), ColumnWidth.create(4))
-    ).toBe('real\nlylo\nngwo\nrd');
+      WrappeableText.create('reallylongword').wordWrap(ColumnWidth.create(4))
+    ).toEqual({ text: 'real\nlylo\nngwo\nrd' });
     expect(
-      wordWrap(WrappeableText.create('abc def'), ColumnWidth.create(4))
-    ).toBe('abc\ndef');
+      WrappeableText.create('abc def').wordWrap(ColumnWidth.create(4))
+    ).toEqual({ text: 'abc\ndef' });
     expect(
-      wordWrap(WrappeableText.create('abc def ghi'), ColumnWidth.create(4))
-    ).toBe('abc\ndef\nghi');
+      WrappeableText.create('abc def ghi').wordWrap(ColumnWidth.create(4))
+    ).toEqual({ text: 'abc\ndef\nghi' });
     expect(
-      wordWrap(WrappeableText.create(' abcdef'), ColumnWidth.create(4))
-    ).toBe('\nabcd\nef');
-    expect(wordWrap(WrappeableText.create(null), ColumnWidth.create(4))).toBe(
-      ''
+      WrappeableText.create(' abcdef').wordWrap(ColumnWidth.create(4))
+    ).toEqual({ text: '\nabcd\nef' });
+    expect(WrappeableText.create(null).wordWrap(ColumnWidth.create(4))).toEqual(
+      { text: '' }
     );
     expect(() =>
-      wordWrap(WrappeableText.create('hello'), ColumnWidth.create(-4))
+      WrappeableText.create('hello').wordWrap(ColumnWidth.create(-4))
     ).toThrow('A negative column width is not allowed');
   });
 });

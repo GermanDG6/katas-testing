@@ -1,22 +1,3 @@
-export function wordWrap(text: WrappeableText, columnWidth: ColumnWidth) {
-  return wordWrapNoPrimitives(text, columnWidth).value();
-}
-
-function wordWrapNoPrimitives(
-  text: WrappeableText,
-  columnWidth: ColumnWidth
-): WrappeableText {
-  if (text.fitsIn(columnWidth)) return text;
-
-  return text
-    .wrappedText(columnWidth)
-    .concat(
-      wordWrapNoPrimitives(
-        WrappeableText.create(text.unwrappedText(columnWidth).value()),
-        columnWidth
-      )
-    );
-}
 export class ColumnWidth {
   private constructor(private readonly width: number) {}
   static create(width: number) {
@@ -35,22 +16,30 @@ export class WrappeableText {
     return new WrappeableText(text);
   }
 
-  fitsIn(columnWidth: ColumnWidth) {
-    return this.value().length <= columnWidth.value();
-  }
+  wordWrap(columnWidth: ColumnWidth): WrappeableText {
+    if (this.fitsIn(columnWidth)) return WrappeableText.create(this.text);
 
-  concat(text: WrappeableText) {
-    return WrappeableText.create(this.value().concat(text.value()));
-  }
-  wrappedText(columnWidth: ColumnWidth) {
-    return WrappeableText.create(
-      this.value().substring(0, this.wrappedTextIndex(columnWidth)).concat('\n')
+    return this.wrappedText(columnWidth).concat(
+      this.unwrappedText(columnWidth).wordWrap(columnWidth)
     );
   }
 
-  unwrappedText(columnWidth: ColumnWidth) {
+  private fitsIn(columnWidth: ColumnWidth) {
+    return this.text.length <= columnWidth.value();
+  }
+
+  private concat(text: WrappeableText) {
+    return WrappeableText.create(this.text.concat(text.text));
+  }
+  private wrappedText(columnWidth: ColumnWidth) {
     return WrappeableText.create(
-      this.value().substring(this.unwrappedTextIndex(columnWidth))
+      this.text.substring(0, this.wrappedTextIndex(columnWidth)).concat('\n')
+    );
+  }
+
+  private unwrappedText(columnWidth: ColumnWidth) {
+    return WrappeableText.create(
+      this.text.substring(this.unwrappedTextIndex(columnWidth))
     );
   }
   private unwrappedTextIndex(columnWidth: ColumnWidth) {
@@ -70,9 +59,5 @@ export class WrappeableText {
       this.text.indexOf(' ') > -1 &&
       this.text.indexOf(' ') < columnWidth.value()
     );
-  }
-
-  value() {
-    return this.text;
   }
 }
