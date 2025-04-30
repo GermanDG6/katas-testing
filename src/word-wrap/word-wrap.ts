@@ -1,26 +1,17 @@
-export function wordWrap(text: string, columnWidth: ColumnWidth) {
-  if (text == null) return '';
-  if (text.length <= columnWidth.value()) return text;
+export function wordWrap(text: WrappeableText, columnWidth: ColumnWidth) {
+  if (text.fitsIn(columnWidth)) return text.value();
 
-  const wrappedTextIndex = getWrappedTextIndex(text, columnWidth.value());
-  const unwrappedTextIndex = getUnwrappedTextIndex(text, columnWidth.value());
-
-  const wrappedText = text.substring(0, wrappedTextIndex).concat('\n');
-  const unwrappedText = text.substring(unwrappedTextIndex);
-
-  return wrappedText.concat(wordWrap(unwrappedText, columnWidth));
-}
-function getUnwrappedTextIndex(text: string, columnWidth: number) {
-  const shallWrapBySpace =
-    text.indexOf(' ') > -1 && text.indexOf(' ') < columnWidth;
-  return shallWrapBySpace ? text.indexOf(' ') + 1 : columnWidth;
+  return text
+    .wrappedText(columnWidth)
+    .value()
+    .concat(
+      wordWrap(
+        WrappeableText.create(text.unwrappedText(columnWidth).value()),
+        columnWidth
+      )
+    );
 }
 
-function getWrappedTextIndex(text: string, columnWidth: number) {
-  const shallWrapBySpace =
-    text.indexOf(' ') > -1 && text.indexOf(' ') < columnWidth;
-  return shallWrapBySpace ? text.indexOf(' ') : columnWidth;
-}
 export class ColumnWidth {
   private constructor(private readonly width: number) {}
   static create(width: number) {
@@ -29,5 +20,51 @@ export class ColumnWidth {
   }
   value() {
     return this.width;
+  }
+}
+export class WrappeableText {
+  private constructor(private readonly text: string) {}
+
+  static create(text: string) {
+    if (text == null) return new WrappeableText('');
+    return new WrappeableText(text);
+  }
+
+  fitsIn(columnWidth: ColumnWidth) {
+    return this.value().length <= columnWidth.value();
+  }
+
+  wrappedText(columnWidth: ColumnWidth) {
+    return WrappeableText.create(
+      this.value().substring(0, this.wrappedTextIndex(columnWidth)).concat('\n')
+    );
+  }
+
+  unwrappedText(columnWidth: ColumnWidth) {
+    return WrappeableText.create(
+      this.value().substring(this.unwrappedTextIndex(columnWidth))
+    );
+  }
+  private unwrappedTextIndex(columnWidth: ColumnWidth) {
+    return this.shallWrapBySpace(columnWidth)
+      ? this.text.indexOf(' ') + 1
+      : columnWidth.value();
+  }
+
+  private wrappedTextIndex(columnWidth: ColumnWidth) {
+    return this.shallWrapBySpace(columnWidth)
+      ? this.text.indexOf(' ')
+      : columnWidth.value();
+  }
+
+  private shallWrapBySpace(columnWidth: ColumnWidth) {
+    return (
+      this.text.indexOf(' ') > -1 &&
+      this.text.indexOf(' ') < columnWidth.value()
+    );
+  }
+
+  value() {
+    return this.text;
   }
 }
