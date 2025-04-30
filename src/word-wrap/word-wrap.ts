@@ -1,17 +1,22 @@
 export function wordWrap(text: WrappeableText, columnWidth: ColumnWidth) {
-  if (text.fitsIn(columnWidth)) return text.value();
+  return wordWrapNoPrimitives(text, columnWidth).value();
+}
+
+function wordWrapNoPrimitives(
+  text: WrappeableText,
+  columnWidth: ColumnWidth
+): WrappeableText {
+  if (text.fitsIn(columnWidth)) return text;
 
   return text
     .wrappedText(columnWidth)
-    .value()
     .concat(
-      wordWrap(
+      wordWrapNoPrimitives(
         WrappeableText.create(text.unwrappedText(columnWidth).value()),
         columnWidth
       )
     );
 }
-
 export class ColumnWidth {
   private constructor(private readonly width: number) {}
   static create(width: number) {
@@ -34,6 +39,9 @@ export class WrappeableText {
     return this.value().length <= columnWidth.value();
   }
 
+  concat(text: WrappeableText) {
+    return WrappeableText.create(this.value().concat(text.value()));
+  }
   wrappedText(columnWidth: ColumnWidth) {
     return WrappeableText.create(
       this.value().substring(0, this.wrappedTextIndex(columnWidth)).concat('\n')
