@@ -1,6 +1,6 @@
 import { Account } from '../../account';
 import { Console } from '../../console';
-import Date from '../../date';
+import { Datetime } from '../../datetime';
 import { StatementPrinter } from '../../statement-printer';
 import { TransactionRespository } from '../../transaction-repository';
 
@@ -8,8 +8,8 @@ describe('Print Statement', () => {
   it('prints an account statement including the transactions made througth the console', () => {
     const console = new Console();
     const consoleSpy = jest.spyOn(console, 'log');
-    const repository = new TransactionRespository(new Date());
-    const statementPrinter = new StatementPrinter();
+    const repository = new TransactionRespository(new Datetime());
+    const statementPrinter = new StatementPrinter(console);
     const account = new Account(repository, statementPrinter);
 
     account.deposit(1000);

@@ -1,12 +1,13 @@
 import { Account } from '../../account';
-import Date from '../../date';
+import { Console } from '../../console';
+import { Datetime } from '../../datetime';
 import { StatementPrinter } from '../../statement-printer';
 import { Transaction } from '../../transaction';
 import { TransactionRespository } from '../../transaction-repository';
 
 describe('The account', () => {
-  const repository = new TransactionRespository(new Date());
-  const statementPrinter = new StatementPrinter();
+  const repository = new TransactionRespository(new Datetime());
+  const statementPrinter = new StatementPrinter(new Console());
   const account = new Account(repository, statementPrinter);
   it('stores the deposit ammount througth the repository', () => {
     const addDepositSpy = jest.spyOn(repository, 'addDeposit');
