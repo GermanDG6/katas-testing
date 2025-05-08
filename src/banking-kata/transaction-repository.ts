@@ -1,9 +1,9 @@
-import Date from './date';
+import { Datetime } from './datetime';
 import { Transaction } from './transaction';
 
 export class TransactionRespository {
   private transactions: Transaction[] = [];
-  constructor(private readonly date: Date) {}
+  constructor(private readonly date: Datetime) {}
 
   allTransactions(): Transaction[] {
     return this.transactions;

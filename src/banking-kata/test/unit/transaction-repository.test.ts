@@ -1,4 +1,4 @@
-import Date from '../../date';
+import { Datetime } from '../../datetime';
 import { Transaction } from '../../transaction';
 import { TransactionRespository } from '../../transaction-repository';
 
@@ -7,7 +7,7 @@ describe('The transaction respository', () => {
     const today = '25/3/2025';
     const amount = 100;
 
-    const date = new Date();
+    const date = new Datetime();
     date.todayAsString = () => today;
 
     const respository = new TransactionRespository(date);
@@ -22,7 +22,7 @@ describe('The transaction respository', () => {
     const today = '25/3/2025';
     const amount = 100;
 
-    const date = new Date();
+    const date = new Datetime();
     date.todayAsString = () => today;
 
     const respository = new TransactionRespository(date);
