@@ -26,12 +26,12 @@ describe('The statement printer', () => {
   });
   it('prints a statement of account includes several transactions througth the console', () => {
     statementPrinter.print([
-      new Transaction('13/01/2022', -500),
       new Transaction('10/01/2022', 1000),
+      new Transaction('13/01/2022', -500),
     ]);
 
     expect(consoleSpy).toHaveBeenCalledWith('Date | Amount | Balance');
-    expect(consoleSpy).toHaveBeenCalledWith('10/01/2022 | 1000.00 | 1000.00');
     expect(consoleSpy).toHaveBeenCalledWith('13/01/2022 | -500.00 | 500.00');
+    expect(consoleSpy).toHaveBeenCalledWith('10/01/2022 | 1000.00 | 1000.00');
   });
 });

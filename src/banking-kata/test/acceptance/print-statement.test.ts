@@ -8,7 +8,13 @@ describe('Print Statement', () => {
   it('prints an account statement including the transactions made througth the console', () => {
     const console = new Console();
     const consoleSpy = jest.spyOn(console, 'log');
-    const repository = new TransactionRespository(new Datetime());
+    const date = new Datetime();
+    date.todayAsString = jest
+      .fn()
+      .mockReturnValueOnce('10/01/2022')
+      .mockReturnValueOnce('13/01/2022')
+      .mockReturnValueOnce('14/01/2022');
+    const repository = new TransactionRespository(date);
     const statementPrinter = new StatementPrinter(console);
     const account = new Account(repository, statementPrinter);
 
