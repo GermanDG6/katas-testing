@@ -13,11 +13,20 @@ export class SurveillanceController {
     private recorder: VideoRecorder
   ) {}
 
-  recordMotion(numberOfSeconds = 1) {
+  recordMotion(numberOfSeconds: number = 1) {
     this.range(numberOfSeconds).forEach(() => {
       this.tryToRecordMotion();
-      this.waitOneSecond();
+      this.waitASecond();
     });
+  }
+
+  private waitASecond() {
+    const aSecond = 1000;
+    let startTime = new Date().getTime();
+    const endTime = startTime + aSecond;
+    while (startTime < endTime) {
+      startTime = new Date().getTime();
+    }
   }
 
   private tryToRecordMotion() {
@@ -31,15 +40,6 @@ export class SurveillanceController {
   }
 
   private range(numberOfSeconds: number) {
-    return Array.from({ length: numberOfSeconds }, (_, i) => i);
-  }
-
-  private waitOneSecond() {
-    const aSecond = 1000;
-    let startTime = new Date().getTime();
-    const endTime = startTime + aSecond;
-    while (startTime < endTime) {
-      startTime = new Date().getTime();
-    }
+    return Array.from({ length: numberOfSeconds }, () => {});
   }
 }
