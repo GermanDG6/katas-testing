@@ -1,35 +1,23 @@
 import { stringCalculator } from './string-calculator';
-
 describe('String Calculator', () => {
-  it('given a empty string or null should return 0', () => {
-    const emptyString = '';
-    const nullValue = null;
-
-    expect(stringCalculator(emptyString)).toEqual(0);
-    expect(stringCalculator(nullValue)).toEqual(0);
+  it('given a null  should return 0', () => {
+    expect(stringCalculator(null)).toEqual(0);
+  });
+  it('given a empty string should return 0', () => {
+    expect(stringCalculator('')).toEqual(0);
   });
 
-  it('given only a number as a string should return the number', () => {
-    const string = '2';
-
-    expect(stringCalculator(string)).toEqual(2);
+  it('given a string number should return as a number', () => {
+    expect(stringCalculator('8')).toEqual(8);
   });
-
-  it('given numbers coma-separated, should return the sum', () => {
-    const stringOfNumbers = '1,3,4,6';
-
-    expect(stringCalculator(stringOfNumbers)).toEqual(14);
+  it('given several numbers separated by coma should return the sum of this numbers', () => {
+    expect(stringCalculator('1,2,3')).toEqual(6);
   });
-
-  it('given a list of characters, only should sum the numbers', () => {
-    const stringOfCharacters = '1,a,3,f,4,6,6s';
-
-    expect(stringCalculator(stringOfCharacters)).toEqual(14);
+  it('the not numerical elements does not affect to the total', () => {
+    expect(stringCalculator('1,2,3,ad,t,e')).toEqual(6);
   });
-
-  it('given a configuration of separators, should accept personalised separators', () => {
-    const stringWithSeparatorsConfiguration = '//-/1-3-4-6';
-
-    expect(stringCalculator(stringWithSeparatorsConfiguration)).toEqual(14);
+  it('allows custom separators', () => {
+    expect(stringCalculator('//-1-2-3')).toEqual(6);
+    expect(stringCalculator('//_1_2_3')).toEqual(6);
   });
 });

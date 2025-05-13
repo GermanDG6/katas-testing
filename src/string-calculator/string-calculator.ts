@@ -1,15 +1,15 @@
 export const stringCalculator = (string: string | null): number => {
-  let numbers;
-  if (string === '' || string === null) return 0;
+  if (string === null || 0) return 0;
+  let numbers: string[] = [string];
   if (string.startsWith('//')) {
-    const separator = string.slice(2, 3);
-    numbers = string.slice(4).split(separator);
-  } else {
+    const separator = string[2];
+    numbers = string.split(separator);
+  }
+  if (string.includes(',')) {
     numbers = string.split(',');
   }
-  return numbers
-    .map((number) => (isNaN(Number(number)) ? 0 : Number(number)))
-    .reduce((acc, current) => {
-      return acc + current;
-    });
+  return numbers.reduce((acc, current) => {
+    if (isNaN(Number(current))) return acc;
+    return acc + Number(current);
+  }, 0);
 };
