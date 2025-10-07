@@ -5,7 +5,9 @@ class BowlingGame {
   }
 
   calculateTotalScore() {
-    return 0;
+    return this.rolls.reduce((acc, current) => {
+      return acc + current;
+    });
   }
 }
 
