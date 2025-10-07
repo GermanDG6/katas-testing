@@ -3,6 +3,10 @@ class BowlingGame {
   roll(bowls: number) {
     this.rolls.push(bowls);
   }
+
+  calculateTotalScore() {
+    return 0;
+  }
 }
 
 describe('The bowling game', () => {
