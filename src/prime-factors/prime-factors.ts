@@ -1,4 +1,8 @@
 export function getPrimeFactors(number: number) {
-  number;
-  return [2];
+  let factor = 2;
+  while (number % factor != 0) factor++;
+  const factors = [factor];
+  const reminder = number / factor;
+  if (reminder > 1) return factors.concat(getPrimeFactors(reminder));
+  return factors;
 }
