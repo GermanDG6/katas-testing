@@ -28,6 +28,15 @@ describe('The bowling game', () => {
     expect(game.calculateTotalScore()).toEqual(20);
   });
 
+  it('should calculate a spare and sum the points extra', () => {
+    game.roll(5);
+    game.roll(5);
+    game.roll(5);
+    rollsMany(17, 0);
+
+    expect(game.calculateTotalScore()).toEqual(20);
+  });
+
   function rollsMany(tries: number = 20, pins: number) {
     Array.from({ length: tries }).forEach(() => game.roll(pins));
   }
