@@ -1,5 +1,5 @@
 class BowlingGame {
-  rolls: number[] = [];
+  private rolls: number[] = [];
   roll(bowls: number) {
     this.rolls.push(bowls);
   }
@@ -12,20 +12,25 @@ class BowlingGame {
 }
 
 describe('The bowling game', () => {
-  it('should give 0 points for a empty game', () => {
-    const game = new BowlingGame();
+  let game: BowlingGame;
+  beforeEach(() => {
+    game = new BowlingGame();
+  });
 
-    Array.from({ length: 20 }).forEach(() => game.roll(0));
+  it('should give 0 points for a empty game', () => {
+    rollsMany(20, 0);
 
     expect(game.calculateTotalScore()).toEqual(0);
   });
+  it('should give 20 points for a game with all tries with 1 only one knockdown', () => {
+    rollsMany(20, 1);
 
-  it('should be able to roll a ball', () => {
-    const game = new BowlingGame();
-    game.roll(0);
-
-    expect(game.rolls).toEqual([0]);
+    expect(game.calculateTotalScore()).toEqual(20);
   });
+
+  function rollsMany(tries: number = 20, pins: number) {
+    Array.from({ length: tries }).forEach(() => game.roll(pins));
+  }
 });
 
 // -- -- -- -- -- -- -- -- -- -- => 0 puntos
