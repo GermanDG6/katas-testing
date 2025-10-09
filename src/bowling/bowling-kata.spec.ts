@@ -32,6 +32,13 @@ describe('The bowling game', () => {
 
     expect(game.calculateTotalScore()).toEqual(20);
   });
+  it('should calculate a perfect game', () => {
+    rollsMany(20, 10);
+    game.roll(10);
+    game.roll(10);
+
+    expect(game.calculateTotalScore()).toEqual(300);
+  });
 
   function rollsMany(tries: number = 20, pins: number) {
     Array.from({ length: tries }).forEach(() => game.roll(pins));
@@ -41,7 +48,3 @@ describe('The bowling game', () => {
     game.roll(5);
   }
 });
-
-// -- -- -- -- -- -- -- -- -- -- => 0 puntos
-// 11 11 11 11 11 11 11 11 11 11 => 20 puntos
-//
