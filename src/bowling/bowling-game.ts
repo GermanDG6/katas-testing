@@ -1,6 +1,7 @@
 export class BowlingGame {
   private rolls: number[] = [];
   private readonly maxScorePerFrame = 10;
+  private readonly numberOfFrames: number = 10;
 
   roll(bowls: number) {
     this.rolls.push(bowls);
@@ -56,9 +57,7 @@ export class BowlingGame {
   }
 
   private frames(): number[] {
-    const numberOfFrames: number = 10;
-
-    return Array.from({ length: numberOfFrames }).map((_, i) => i);
+    return Array.from({ length: this.numberOfFrames }).map((_, i) => i);
   }
 }
 type Score = {
