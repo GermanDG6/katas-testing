@@ -45,7 +45,7 @@ export class BowlingGame {
   }
 
   private isStrike(rollIndex: number) {
-    return this.rolls[rollIndex] === 10;
+    return this.rolls[rollIndex] === this.maxPointsPerFrame;
   }
 
   private strikeBonus(rollIndex: number) {
