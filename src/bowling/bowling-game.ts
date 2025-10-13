@@ -1,66 +1,75 @@
 export class BowlingGame {
-  private rolls: number[] = [];
-  private readonly maxScorePerFrame = 10;
-  private readonly numberOfFrames: number = 10;
+  private readonly rolls: number[] = [];
+  private readonly maxNumOfFrames = 10;
 
-  roll(bowls: number) {
-    this.rolls.push(bowls);
-  }
+  private readonly maxPointsPerFrame = 10;
 
-  calculateTotalScore() {
-    const score = this.frames().reduce(this.calculatesScorePerFrame, {
+  totalScore() {
+    const score = this.frames().reduce(this.calculateScorePerFrame(), {
       totalScore: 0,
-      frameIndex: 0,
+      rollIndex: 0,
     });
+
     return score.totalScore;
   }
 
-  private calculatesScorePerFrame = ({ totalScore, frameIndex }: Score) => {
-    if (this.isStrike(frameIndex)) {
+  roll(pins: number) {
+    this.rolls.push(pins);
+  }
+
+  private calculateScorePerFrame() {
+    return ({ totalScore, rollIndex }: Score) => {
+      if (this.isStrike(rollIndex)) {
+        return {
+          totalScore:
+            totalScore + this.rolls[rollIndex] + this.strikeBonus(rollIndex),
+          rollIndex: rollIndex + 1,
+        };
+      }
+
+      if (this.isSpare(rollIndex)) {
+        return {
+          totalScore:
+            totalScore +
+            this.pinsScoredInAFrame(rollIndex) +
+            this.spareBonus(rollIndex),
+          rollIndex: rollIndex + 2,
+        };
+      }
+
       return {
-        totalScore:
-          totalScore + this.maxScorePerFrame + this.strikeBonus(frameIndex),
-        frameIndex: frameIndex + 1,
+        totalScore: totalScore + this.pinsScoredInAFrame(rollIndex),
+        rollIndex: rollIndex + 2,
       };
-    }
-    if (this.isSpare(frameIndex)) {
-      return {
-        totalScore:
-          totalScore + this.maxScorePerFrame + this.spareBonus(frameIndex),
-        frameIndex: frameIndex + 2,
-      };
-    }
-    return {
-      totalScore: totalScore + this.sumOfBallsInFrame(frameIndex),
-      frameIndex: frameIndex + 2,
     };
-  };
-
-  private isStrike(frameIndex: number) {
-    return this.rolls[frameIndex] === this.maxScorePerFrame;
   }
 
-  private strikeBonus(frameIndex: number) {
-    return this.rolls[frameIndex + 1] + this.rolls[frameIndex + 2];
+  private isStrike(rollIndex: number) {
+    return this.rolls[rollIndex] === 10;
   }
 
-  private isSpare(frameIndex: number) {
-    return this.sumOfBallsInFrame(frameIndex) === this.maxScorePerFrame;
+  private strikeBonus(rollIndex: number) {
+    return this.rolls[rollIndex + 1] + this.rolls[rollIndex + 2];
   }
 
-  private spareBonus(frameIndex: number) {
-    return this.rolls[frameIndex + 2];
+  private spareBonus(rollIndex: number) {
+    return this.rolls[rollIndex + 2];
   }
 
-  private sumOfBallsInFrame(frameIndex: number) {
-    return this.rolls[frameIndex] + this.rolls[frameIndex + 1];
+  private isSpare(rollIndex: number) {
+    return this.pinsScoredInAFrame(rollIndex) === this.maxPointsPerFrame;
   }
 
-  private frames(): number[] {
-    return Array.from({ length: this.numberOfFrames }).map((_, i) => i);
+  private pinsScoredInAFrame(rollIndex) {
+    return this.rolls[rollIndex] + this.rolls[rollIndex + 1];
+  }
+
+  private frames() {
+    return Array.from({ length: this.maxNumOfFrames }).map((_, i) => i);
   }
 }
+
 type Score = {
   totalScore: number;
-  frameIndex: number;
+  rollIndex: number;
 };

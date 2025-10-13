@@ -2,58 +2,44 @@ import { BowlingGame } from './bowling-game';
 
 describe('The bowling game', () => {
   let game: BowlingGame;
-
   beforeEach(() => {
     game = new BowlingGame();
   });
-
-  it('should give 0 points for a empty game', () => {
+  it('should have a total score of 0 for an empty game', () => {
     rollsMany(20, 0);
 
-    expect(game.calculateTotalScore()).toEqual(0);
+    expect(game.totalScore()).toEqual(0);
   });
-
-  it('should give 20 points for a game with all tries with 1 only one knockdown', () => {
+  it('should have a total score of 20 points for a game with 1 pins hit down on each roll', () => {
     rollsMany(20, 1);
 
-    expect(game.calculateTotalScore()).toEqual(20);
+    expect(game.totalScore()).toEqual(20);
   });
 
-  it('should calculate a spare and sum the points extra', () => {
-    spareFrame();
+  it('should calculates a spare and the bonus', () => {
+    game.roll(5);
+    game.roll(5);
     game.roll(5);
     rollsMany(17, 0);
 
-    expect(game.calculateTotalScore()).toEqual(20);
+    expect(game.totalScore()).toEqual(20);
   });
 
-  it('should calculate a strike and sum the points extra', () => {
-    strikeRoll();
+  it('should calculates a strike and the bonus', () => {
+    game.roll(10);
     game.roll(2);
     game.roll(3);
     rollsMany(16, 0);
 
-    expect(game.calculateTotalScore()).toEqual(20);
+    expect(game.totalScore()).toEqual(20);
+  });
+  it('should calculates a perfect game', () => {
+    rollsMany(22, 10);
+
+    expect(game.totalScore()).toEqual(300);
   });
 
-  it('should calculate a perfect game', () => {
-    rollsMany(20, 10);
-    game.roll(10);
-    game.roll(10);
-
-    expect(game.calculateTotalScore()).toEqual(300);
-  });
-
-  function rollsMany(tries: number = 20, pins: number) {
-    Array.from({ length: tries }).forEach(() => game.roll(pins));
-  }
-
-  function spareFrame() {
-    game.roll(5);
-    game.roll(5);
-  }
-
-  function strikeRoll() {
-    game.roll(10);
+  function rollsMany(numberOfRolls: number, pinsPerRoll: number) {
+    Array.from({ length: numberOfRolls }).map(() => game.roll(pinsPerRoll));
   }
 });
