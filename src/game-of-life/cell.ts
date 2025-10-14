@@ -8,7 +8,9 @@ export class Cell {
   private readonly maxOfNeigborsToSurvive = 3;
   private readonly neighborsToRevive = 3;
 
-  constructor(private readonly status: CellStatus) {}
+  constructor(private readonly status: CellStatus) {
+    if (this.status == null) throw new Error('Invalid status');
+  }
 
   regenerate(numberOfNeighbors: number): Cell {
     if (this.isAlive() && this.hasNeighborsToSurvive(numberOfNeighbors))
