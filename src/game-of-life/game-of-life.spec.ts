@@ -9,7 +9,9 @@ export class Cell {
     this.status = status;
   }
 
-  regenerate(numberOfNeighbors: number) {}
+  regenerate(numberOfNeighbors: number): CellStatus {
+    return CellStatus.Died;
+  }
 }
 
 describe('The game of life', () => {
@@ -18,6 +20,6 @@ describe('The game of life', () => {
 
     const numberOfNeighbors = 1;
     const nextGeneration = cell.regenerate(numberOfNeighbors);
-    expect(nextGeneration).toBe(CellStatus.Alive);
+    expect(nextGeneration).toBe(CellStatus.Died);
   });
 });
