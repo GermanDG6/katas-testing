@@ -56,6 +56,7 @@ describe('In the game of life', () => {
 
   it('living cells with two or three neighbors survive.', () => {
     expect(new Cell(CellStatus.Alive).regenerate(2)).toBe(CellStatus.Alive);
+    expect(new Cell(CellStatus.Alive).regenerate(3)).toBe(CellStatus.Alive);
     expect(new Cell(CellStatus.Died).regenerate(2)).toBe(CellStatus.Died);
   });
 
