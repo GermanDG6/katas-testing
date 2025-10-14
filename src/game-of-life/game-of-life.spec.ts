@@ -18,12 +18,12 @@ export class Cell {
   regenerate(numberOfNeighbors: number): CellStatus {
     if (this.isAlive() && this.hasNeighborsToSurvive(numberOfNeighbors))
       return CellStatus.Alive;
-    if (this.isDead() && this.hasNeigborsToSurvive(numberOfNeighbors))
+    if (this.isDead() && this.hasNeighborsToRevive(numberOfNeighbors))
       return CellStatus.Alive;
     return CellStatus.Died;
   }
 
-  private hasNeigborsToSurvive(numberOfNeighbors: number) {
+  private hasNeighborsToRevive(numberOfNeighbors: number) {
     return numberOfNeighbors === this.neighborsToRevive;
   }
 
