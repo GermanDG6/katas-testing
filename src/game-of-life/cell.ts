@@ -4,40 +4,37 @@ export enum CellStatus {
 }
 
 export class Cell {
-  private readonly status: CellStatus;
-  private readonly minOfNeighborsForSurvive = 2;
-
+  private readonly minOfNeighborsToSurvive = 2;
   private readonly maxOfNeigborsToSurvive = 3;
-
   private readonly neighborsToRevive = 3;
 
-  constructor(status: CellStatus) {
-    this.status = status;
-  }
+  constructor(private readonly status: CellStatus) {}
 
-  regenerate(numberOfNeighbors: number): CellStatus {
+  regenerate(numberOfNeighbors: number): Cell {
     if (this.isAlive() && this.hasNeighborsToSurvive(numberOfNeighbors))
-      return CellStatus.Alive;
+      return new Cell(CellStatus.Alive);
+
     if (this.isDead() && this.hasNeighborsToRevive(numberOfNeighbors))
-      return CellStatus.Alive;
-    return CellStatus.Died;
+      return new Cell(CellStatus.Alive);
+
+    return new Cell(CellStatus.Died);
   }
 
-  private hasNeighborsToRevive(numberOfNeighbors: number) {
-    return numberOfNeighbors === this.neighborsToRevive;
+  isAlive() {
+    return this.status === CellStatus.Alive;
   }
 
   private isDead() {
     return this.status === CellStatus.Died;
   }
 
-  private isAlive() {
-    return this.status === CellStatus.Alive;
+  private hasNeighborsToRevive(numberOfNeighbors: number) {
+    return numberOfNeighbors === this.neighborsToRevive;
   }
 
   private hasNeighborsToSurvive(numberOfNeighbors: number) {
     return (
-      numberOfNeighbors === this.minOfNeighborsForSurvive ||
+      numberOfNeighbors === this.minOfNeighborsToSurvive ||
       numberOfNeighbors === this.maxOfNeigborsToSurvive
     );
   }
