@@ -20,4 +20,9 @@ describe('In the game of life', () => {
   it('dead cells with exactly 3 neighbors are revived', () => {
     expect(new Cell(CellStatus.Died).regenerate(3).isAlive()).toBe(true);
   });
+
+  it(' should not be able to have an invalid state', () => {
+    expect(() => new Cell(undefined)).toThrow();
+    expect(() => new Cell(null)).toThrow();
+  });
 });
