@@ -12,6 +12,11 @@ export class Cell {
     if (this.status == null) throw new Error('Invalid status');
   }
 
+  static create(status: CellStatus) {
+    if (status == null) throw new Error('Invalid status');
+    return new Cell(status);
+  }
+
   regenerate(numberOfNeighbors: number): Cell {
     if (this.isAlive() && this.hasNeighborsToSurvive(numberOfNeighbors))
       return new Cell(CellStatus.Alive);
