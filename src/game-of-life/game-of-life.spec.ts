@@ -9,16 +9,26 @@ export class Cell {
 
   private readonly maxOfNeigborsToSurvive = 3;
 
+  private readonly neighborsToRevive = 3;
+
   constructor(status: CellStatus) {
     this.status = status;
   }
 
   regenerate(numberOfNeighbors: number): CellStatus {
-    if (this.hasNeighborsToSurvive(numberOfNeighbors) && this.isAlive())
+    if (this.isAlive() && this.hasNeighborsToSurvive(numberOfNeighbors))
       return CellStatus.Alive;
-    if (this.status === CellStatus.Died && numberOfNeighbors === 3)
+    if (this.isDead() && this.hasNeigborsToSurvive(numberOfNeighbors))
       return CellStatus.Alive;
     return CellStatus.Died;
+  }
+
+  private hasNeigborsToSurvive(numberOfNeighbors: number) {
+    return numberOfNeighbors === this.neighborsToRevive;
+  }
+
+  private isDead() {
+    return this.status === CellStatus.Died;
   }
 
   private isAlive() {
