@@ -1,48 +1,37 @@
 export enum CellStatus {
+  Dead,
   Alive,
-  Died,
 }
 
 export class Cell {
-  private readonly minOfNeighborsToSurvive = 2;
-  private readonly maxOfNeigborsToSurvive = 3;
-  private readonly neighborsToRevive = 3;
-
-  constructor(private readonly status: CellStatus) {
-    if (this.status == null) throw new Error('Invalid status');
-  }
+  private constructor(private readonly status: CellStatus) {}
 
   static create(status: CellStatus) {
-    if (status == null) throw new Error('Invalid status');
+    if(status == null) {
+      throw new Error('Invalid status');
+    }
     return new Cell(status);
   }
 
-  regenerate(numberOfNeighbors: number): Cell {
-    if (this.isAlive() && this.hasNeighborsToSurvive(numberOfNeighbors))
-      return new Cell(CellStatus.Alive);
+  regenerate(numberOfNeighbors: number) {
+    const nextStatus = this.isAlive()
+      ? this.statusForAliveCell(numberOfNeighbors)
+      : this.statusForDiedCell(numberOfNeighbors);
 
-    if (this.isDead() && this.hasNeighborsToRevive(numberOfNeighbors))
-      return new Cell(CellStatus.Alive);
-
-    return new Cell(CellStatus.Died);
+    return new Cell(nextStatus);
   }
 
   isAlive() {
     return this.status === CellStatus.Alive;
   }
 
-  private isDead() {
-    return this.status === CellStatus.Died;
+  private statusForAliveCell(numberOfNeighbors: number) {
+    const isStablePopulation = numberOfNeighbors < 2 || numberOfNeighbors > 3;
+    return isStablePopulation ? CellStatus.Dead : CellStatus.Alive;
   }
 
-  private hasNeighborsToRevive(numberOfNeighbors: number) {
-    return numberOfNeighbors === this.neighborsToRevive;
-  }
-
-  private hasNeighborsToSurvive(numberOfNeighbors: number) {
-    return (
-      numberOfNeighbors === this.minOfNeighborsToSurvive ||
-      numberOfNeighbors === this.maxOfNeigborsToSurvive
-    );
+  private statusForDiedCell(numberOfNeighbors: number) {
+    const isFertilePopulation = numberOfNeighbors === 3;
+    return isFertilePopulation ? CellStatus.Alive : CellStatus.Dead;
   }
 }
