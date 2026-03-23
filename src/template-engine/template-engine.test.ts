@@ -7,6 +7,7 @@ class TemplateEngine {
   ) {}
 
   parse() {
+    if(!this.variables) return new ParsedTemplate(this.template, [new TemplateWarning('Dictionary is null')])
     let parsedText = this.template;
     const warnings: TemplateWarning[] = []
     this.variables.forEach((value, key) => {
@@ -119,6 +120,17 @@ describe('TemplateEngine', () => {
     expect(parsedTemplate.text).toBe('John is {{age}} years old');
     expect(parsedTemplate.containWarnings()).toBe(true);
     expect(parsedTemplate.warnings[0].message).toBe('Variable age could not replaced');
+  });
+
+  it('should return the text and related warnings when dictionary is null ', () => {
+    const template = "{{user}}";
+    const variables: Dictionary = null
+
+    const parsedTemplate = new TemplateEngine(template, variables).parse();
+
+    expect(parsedTemplate.text).toBe('{{user}}');
+    expect(parsedTemplate.containWarnings()).toBe(true);
+    expect(parsedTemplate.warnings[0].message).toBe('Dictionary is null');
   });
 })
 
