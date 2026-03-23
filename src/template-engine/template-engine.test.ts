@@ -17,8 +17,24 @@ class TemplateEngine {
       }
       parsedText = parsedText.replaceAll(variable, value);
     });
-    return new ParsedTemplate(parsedText, warnings);
+
+
+    const parsedTemplate = new ParsedTemplate(parsedText, warnings);
+    return this.addWarningsAbountNonReplacedVariable(parsedTemplate);
   }
+
+private addWarningsAbountNonReplacedVariable(parsedTemplate: ParsedTemplate) {
+  const variableRegex = `\{\{\[a-zA-Z0-9]+\}\}`;
+  const matches = parsedTemplate.text.match(variableRegex);
+  if (!matches) {
+    return parsedTemplate;
+  }
+  const warnings: TemplateWarning[] = []
+  matches.forEach(match => {
+    warnings.push(new TemplateWarning(`Variable ${match.substring(2, match.length - 2)} could not replaced`))
+  })
+  return  parsedTemplate.addWarnings(warnings)
+}
 }
 
 class TemplateWarning {
@@ -30,6 +46,10 @@ class ParsedTemplate {
 
   containWarnings() {
     return this.warnings.length > 0;
+  }
+
+  addWarnings(warnings: TemplateWarning[]) {
+    return new ParsedTemplate(this.text, this.warnings.concat((warnings)))
   }
 }
 
@@ -98,7 +118,7 @@ describe('TemplateEngine', () => {
 
     expect(parsedTemplate.text).toBe('John is {{age}} years old');
     expect(parsedTemplate.containWarnings()).toBe(true);
-    expect(parsedTemplate.warnings[0].message).toBe('Variable age are not in dictionary');
+    expect(parsedTemplate.warnings[0].message).toBe('Variable age could not replaced');
   });
 })
 
