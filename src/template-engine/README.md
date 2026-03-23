@@ -18,7 +18,11 @@
 ### Requisitos
  - Reemplazo simple: Sustituye {{nombre}} por el valor del diccionario
 
-   - Variables inexistentes: Si la variable no existe en el diccionario, deja la plantilla sin cambios
+ - Variables no reemplazadas: Si la variable no se encuentra en el diccionario, no se debe reemplazar en la plantilla.
+
+ - Variables inexistentes: Si la variables del diccionario no se encuentra en la plantilla, se ignora.
+ 
+ - Diccionario o texto nulos: 
 
 
 #### Casos de prueba mínimos
