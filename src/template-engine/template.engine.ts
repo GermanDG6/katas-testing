@@ -46,9 +46,10 @@ export class TemplateEngine {
       return parsedTemplate;
     }
     matches.forEach((match) => {
+      const variableName = match.substring(2, match.length - 2);
       parsedTemplate.addWarnings([
         new TemplateWarning(
-          `Variable ${match.substring(2, match.length - 2)} could not replaced`
+          `Variable ${variableName} could not replaced`
         ),
       ]);
     });
