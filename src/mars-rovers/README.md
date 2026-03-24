@@ -13,7 +13,7 @@ Cada rover tiene una posición identificada por:
  - coordenada Y,
  - y una orientación (N, S, E, W).
  
-Ejemplo: la posición 0 0 N indica que el rover está en la esquina inferior izquierda mirando al norte.
+          Ejemplo: la posición 0 0 N indica que el rover está en la esquina inferior izquierda mirando al norte.
 
 ### Comandos que recibe el rover
 
@@ -21,6 +21,8 @@ El rover recibe una cadena de comandos, donde cada carácter es una instrucción
  - F: avanza una casilla en la dirección en la que está orientado, manteniendo la orientación.
  - L: gira 90 grados a la izquierda sin moverse de casilla.
  - R: gira 90 grados a la derecha sin moverse de casilla.
+
+            Ejemplo: 'FRFLF' indica que el rover debe avanzar, girar a la derecha, avanzar, girar a la izquierda y luego avanzar nuevamente.
 
 ### Reglas de movimiento
 
@@ -31,13 +33,13 @@ Cuando el rover avanza (F), su nueva posición se calcula según la orientación
  - E:(x+1,y)
  - W:(x-1,y)
 
-Si el rover intenta salirse de la meseta, el comportamiento puede variar según la versión:
- - En algunas versiones, el rover se queda en la última casilla posible del borde.
- - En otras, “se envuelve” al lado opuesto (por ejemplo, si está en el borde norte y avanza, pasa a la casilla sur equivalente).
+Si el rover intenta salirse de la meseta, el rover rodea el eje de coordenadas y aparece en el lado opuesto. Por ejemplo: 
+ - Si el rover está en la posición "0:0:N" y recibe el comando 'F', su nueva posición será "0:9:N" (asumiendo una meseta de tamaño 10×10).
 
 ## Salida esperada
 Después de ejecutar todos los comandos de una secuencia, el programa debe devolver la posición final del rover en un formato como:
- - 2 3 N (coordenadas X, Y y orientación final).
+        
+    "2:3:N" (coordenadas X, Y y orientación final).
 
 ### Opcional (versión avanzada)
  - La meseta puede contener obstáculos en ciertas coordenadas.
