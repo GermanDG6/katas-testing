@@ -10,12 +10,14 @@ La sintaxis en un fichero markdown de un hipervínculo es la siguiente:
 Y en nota al pie se debe utilizar la siguiente sintaxis: 
 
     visible text link [^anchor1]
+
     [^anchor1] : url
 
 Por ejemplo: 
 
     [this book](https://thisbook.com) and some text 
     this book [^anchor1] and some text 
+
     [^anchor1]: https://thisbook.com
 
 También hay que tener en cuenta los siguientes casos: 
